@@ -3,3 +3,12 @@ dotnet run
 //----------
 NuGet Package Manager
 ctrl+shift+P=>git=>add package=>restsharp
+
+//-------------------
+echo "# RestSharpTest" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:halyhuang1991/RestSharpTest.git
+git push -u origin master
+
