@@ -8,6 +8,10 @@ namespace RestSharpTest
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            //uploadfile();//上传文件
+            //ToObject();//返回对象
+            //download();//下载文件
+         
             var client = new RestClient("http://127.0.0.1:8089");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
@@ -59,11 +63,43 @@ namespace RestSharpTest
             // // abort the request on demand
             asyncHandle.Abort();
         }
+        private static void uploadfile(){
+            var client = new RestClient("http://localhost:9000/");
+            var request = new RestRequest("api/File/GetFile", Method.POST);
+            string path = @"D:\4.txt";
+            request.AddFile("file", path);
+            IRestResponse response = client.Execute(request);
+            Console.WriteLine(response.Content.ToString() + response.StatusDescription);
+        }
+        private static void ToObject(){
+            var client = new RestClient("http://localhost:9000/");
+            var request = new RestRequest("api/account/{id}", Method.GET);
+            request.AddUrlSegment("id", "st"); 
+            request.AddParameter("name", "val");
+            request.AddParameter("age", "22");
+            IRestResponse<student> response = client.Execute<student>(request);
+            Console.WriteLine(response.Content.ToString());
+        }
+        private  static void download(){
+            var client = new RestClient("http://localhost:9000/");
+            var request = new RestRequest("api/Down/DownFile", Method.POST);
+            byte[] bytes=client.DownloadData(request);
+            string  str  = System.Text.Encoding.UTF8.GetString(bytes); 
+            Console.WriteLine(str);
+            // IRestResponse response = client.Execute(request);
+            // Console.WriteLine(response.Content.ToString() + response.StatusDescription);
+
+        }
         public class Person{
             public string name{get;set;}
             public int id{get;set;}
             public string password{get;set;}
             public string profession{get;set;}
+        }
+        public class student
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
         }
     }
 }
