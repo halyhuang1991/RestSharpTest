@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using RestSharp;
+using RestSharp.Extensions;
 namespace RestSharpTest
 {
     class Program
@@ -67,6 +68,7 @@ namespace RestSharpTest
             var client = new RestClient("http://localhost:9000/");
             var request = new RestRequest("api/File/GetFile", Method.POST);
             string path = @"D:\4.txt";
+            //request.AddHeader("Content-Type", "application/zip");
             request.AddFile("file", path);
             IRestResponse response = client.Execute(request);
             Console.WriteLine(response.Content.ToString() + response.StatusDescription);
@@ -83,7 +85,9 @@ namespace RestSharpTest
         private  static void download(){
             var client = new RestClient("http://localhost:9000/");
             var request = new RestRequest("api/Down/DownFile", Method.POST);
+            //client.DownloadData(request).SaveAs("D:\\44.txt");//RestSharp.Extensions
             byte[] bytes=client.DownloadData(request);
+            //System.IO.File.WriteAllBytes("D:\\44.txt", bytes);
             string  str  = System.Text.Encoding.UTF8.GetString(bytes); 
             Console.WriteLine(str);
             // IRestResponse response = client.Execute(request);
