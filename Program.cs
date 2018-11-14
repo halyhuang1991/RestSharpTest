@@ -8,7 +8,13 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Dictionary<string,string> dic =new Dictionary<string, string>();
+            dic.Add("action","save");
+           string ret=WebMethod.WebHelper.HttpPost("http://localhost:18096/Handlers/Handler.ashx",null,dic);
+           Console.WriteLine(ret);
+        }
+        private void test(){
+ Console.WriteLine("Hello World!");
             //uploadfile();//上传文件
             //ToObject();//返回对象
             //download();//下载文件
