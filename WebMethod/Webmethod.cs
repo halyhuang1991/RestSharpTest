@@ -103,7 +103,7 @@ namespace WebMethod
             return retString;
 
         }
-        public static string HttpPost(string Url, string token = null, Dictionary<string, string> param = null)
+        public static string HttpPost(string Url, string token = null, Dictionary<string, string> param = null,CookieContainer cookie=null)
         {
             StringBuilder stringBuilder = new StringBuilder();
             if (param != null && param.Count > 0)
@@ -120,7 +120,7 @@ namespace WebMethod
                     }
                 }
             }
-            return HttpPost(Url, token, stringBuilder.ToString());
+            return HttpPost(Url, token, stringBuilder.ToString(),cookie);
         }
         
        
