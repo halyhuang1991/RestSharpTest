@@ -17,7 +17,7 @@ namespace WebMethod
         /// <param name="Url"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static string HttpGet(string Url, string token = null)
+        public static string HttpGet(string Url, string token = null,CookieContainer cookie=null)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
             request.Method = "GET";
@@ -25,6 +25,9 @@ namespace WebMethod
             if (token != null)
             {
                 request.Headers.Add("Authorization", token);
+            }
+            if(cookie!=null){
+                request.CookieContainer=cookie;
             }
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream myResponseStream = response.GetResponseStream();
