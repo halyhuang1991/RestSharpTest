@@ -17,43 +17,25 @@ namespace WebMethod
         /// <param name="Url"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static string HttpGet(string Url, string token = null,CookieContainer cookie=null)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Method = "GET";
-            request.ContentType = "text/html;charset=UTF-8";
-            if (token != null)
-            {
-                request.Headers.Add("Authorization", token);
-            }
-            if(cookie!=null){
-                request.CookieContainer=cookie;
-            }
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream myResponseStream = response.GetResponseStream();
-            StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.UTF8);
-            string retString = myStreamReader.ReadToEnd();
-            myStreamReader.Close();
-            myResponseStream.Close();
-
-            return retString;
-
-        }
-        public static string HttpGet(string Url, string token = null, Dictionary<string, string> param = null)
+        public static string HttpGet(string Url, string token = null, Dictionary<string, string> param = null, CookieContainer cookie = null)
         {
             StringBuilder builder = new StringBuilder();
             builder.Append(Url);
-            if (param.Count > 0 && Url.IndexOf("?") == -1)
+            if (param != null)
             {
-                builder.Append("?");
-                int i = 0;
-                foreach (var item in param)
+                if (param.Count > 0 && Url.IndexOf("?") == -1)
                 {
-                    if (i > 0)
-                        builder.Append("&");
-                    builder.AppendFormat("{0}={1}", item.Key, item.Value);
-                    i++;
+                    builder.Append("?");
+                    int i = 0;
+                    foreach (var item in param)
+                    {
+                        if (i > 0)
+                            builder.Append("&");
+                        builder.AppendFormat("{0}={1}", item.Key, item.Value);
+                        i++;
+                    }
                 }
+
             }
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(builder.ToString());
             request.Method = "GET";
@@ -62,6 +44,10 @@ namespace WebMethod
             {
                 request.Headers.Add("Authorization", token);
             }
+            if (cookie != null)
+            {
+                request.CookieContainer = cookie;
+            }
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream myResponseStream = response.GetResponseStream();
             StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.UTF8);
@@ -73,7 +59,7 @@ namespace WebMethod
 
         }
 
-        public static string HttpPost(string Url, string token = null, string postDataStr = null,CookieContainer cookie=null)
+        public static string HttpPost(string Url, string token = null, string postDataStr = null, CookieContainer cookie = null)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
             request.Method = "POST";
@@ -93,8 +79,9 @@ namespace WebMethod
                 myRequestStream.Write(postData, 0, postData.Length);
                 myRequestStream.Close();
             }
-            if(cookie!=null){
-                request.CookieContainer=cookie;
+            if (cookie != null)
+            {
+                request.CookieContainer = cookie;
             }
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream myResponseStream = response.GetResponseStream();
@@ -106,7 +93,7 @@ namespace WebMethod
             return retString;
 
         }
-        public static string HttpPost(string Url, string token = null, Dictionary<string, string> param = null,CookieContainer cookie=null)
+        public static string HttpPost(string Url, string token = null, Dictionary<string, string> param = null, CookieContainer cookie = null)
         {
             StringBuilder stringBuilder = new StringBuilder();
             if (param != null && param.Count > 0)
@@ -123,10 +110,10 @@ namespace WebMethod
                     }
                 }
             }
-            return HttpPost(Url, token, stringBuilder.ToString(),cookie);
+            return HttpPost(Url, token, stringBuilder.ToString(), cookie);
         }
-        
-       
+
+
         public static CookieContainer GetCookie(string Url, string postDataStr = null)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);

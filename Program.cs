@@ -8,7 +8,7 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-          WebTest.TestCookie();
+          WebTest.TestToken();
         }
         private void test(){
             Console.WriteLine("Hello World!");
