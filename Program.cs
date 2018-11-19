@@ -8,7 +8,7 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-          WebTest.TestToken();
+          HttpServer.HttpServer1.run();
         }
         private void test(){
             Console.WriteLine("Hello World!");
