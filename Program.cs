@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using RestSharp;
 using RestSharp.Extensions;
+using RestSharpTest.upLoad;
+
 namespace RestSharpTest
 {
     class Program
     {
         static void Main(string[] args)
         {
-          HttpServer.HttpServer1.run();
+          //HttpServer.HttpServer1.run();
+          UploadFile.UploadFiles();
+          Console.WriteLine("Hello World!");
         }
         private void test(){
             Console.WriteLine("Hello World!");
