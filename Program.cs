@@ -11,8 +11,8 @@ namespace RestSharpTest
         static void Main(string[] args)
         {
           //HttpServer.HttpServer1.run();
-          UploadFile.UploadFiles();
-          Console.WriteLine("Hello World!");
+         DownloadFile.Download();
+         Console.WriteLine("Hello World!");
         }
         private void test(){
             Console.WriteLine("Hello World!");

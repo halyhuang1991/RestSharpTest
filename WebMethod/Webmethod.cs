@@ -93,6 +93,29 @@ namespace WebMethod
             return retString;
 
         }
+         public static HttpWebResponse HttpPost(string Url, string token = null, string postDataStr = null)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            request.Method = "POST";
+            //request.ContentType = "text/html;charset=UTF-8";
+            request.ContentType = "application/x-www-form-urlencoded";
+
+            if (token != null)
+            {
+                request.Headers.Add("Authorization", token);
+            }
+            if (postDataStr != null)
+            {
+                byte[] postData = Encoding.UTF8.GetBytes(postDataStr);
+                request.ContentLength = postData.Length;
+                Stream myRequestStream = request.GetRequestStream();
+                StreamWriter myStreamWriter = new StreamWriter(myRequestStream, Encoding.GetEncoding("utf-8"));
+                myRequestStream.Write(postData, 0, postData.Length);
+                myRequestStream.Close();
+            }
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            return response;
+        }
         public static string HttpPost(string Url, string token = null, Dictionary<string, string> param = null, CookieContainer cookie = null)
         {
             StringBuilder stringBuilder = new StringBuilder();
