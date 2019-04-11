@@ -21,6 +21,7 @@ namespace RestSharpTest.upLoad
             File.Delete(path);
              //Download("http://download.firefox.com.cn/releases-sha2/stub/official/zh-CN/Firefox-latest.exe",deskpath);
             string url="http://localhost:18096/api/download/resumeFile";
+            url="http://localhost:18096/api/download/Download2";
             Downloadfile(url,deskpath);
         }
        public static bool Downloadfile(string Url, string desPath,long from=0,long to=0){
@@ -67,7 +68,7 @@ namespace RestSharpTest.upLoad
                     length = response.ContentLength;
                     contentRange=GetRange(response);
                     length=contentRange.total-1;
-                    if(contentRange.end==contentRange.total-1)return true;
+                    if(contentRange.end>=contentRange.total-1)return true;
                 }
                 from=to+1;
                 to=to+btCount;
