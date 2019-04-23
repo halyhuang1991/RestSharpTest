@@ -15,7 +15,7 @@ namespace RestSharpTest.HttpServer
          byte[] buffer = new byte[1024*64];
           public static void test(){
             HttpRequest1 http = new HttpRequest1();
-            http._host = "127.0.0.1"; http._path = "http://localhost:18096/api/Download";
+            http._host = "127.0.0.1"; http._path = "/api/Download?a=12";
             Socket socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socketClient.Connect(IPAddress.Parse("127.0.0.1"), 18096);
             http.SendRequest(socketClient);
