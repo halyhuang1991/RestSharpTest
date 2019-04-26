@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,23 +17,28 @@ public class MyHttpServer : HttpServer {
     }
     public override void OnGet(HttpRequest p) {
         Console.WriteLine("request: {0}", p.URL);
-        // p.outputStream.WriteLine("<html><body><h1>test server</h1>");
-        // p.outputStream.WriteLine("Current Time: " + DateTime.Now.ToString());
-        // p.outputStream.WriteLine("url : {0}", p.URL);
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.Append("<html><body><h1>test server</h1>");
+        stringBuilder.Append("Current Time: " + DateTime.Now.ToString());
+        stringBuilder.Append(string.Format("url : {0}", p.URL));
  
-        // p.outputStream.WriteLine("<form method=post action=/form>");
-        // p.outputStream.WriteLine("<input type=text name=foo value=foovalue>");
-        // p.outputStream.WriteLine("<input type=submit name=bar value=barvalue>");
-        // p.outputStream.WriteLine("</form>");
+        stringBuilder.Append("<form method=post action=/form>");
+        stringBuilder.Append("<input type=text name=foo value=foovalue>");
+        stringBuilder.Append("<input type=submit name=bar value=barvalue>");
+        stringBuilder.Append("</form></body></html>");
+        p.SendResponse("{\"a\":12,\"q\":[12,2,4,6]}");
+        //fetch("http://localhost:8150/",{method:'get',mode: 'cors'}).then(function(data){return data.json();}).then(function(data){console.log(data)})
     }
  
     public override void OnPost(HttpRequest p) {
         Console.WriteLine("POST request: {0}", p.URL);
         string data = "";
- 
-        // p.handler.WriteLine("<html><body><h1>test server</h1>");
-        // p.handler.WriteLine("<a href=/test>return</a><p>");
-        // p.handler.WriteLine("postbody: <pre>{0}</pre>", data);
+        data+="<html><body><h1>test server</h1>";
+        data+="<a href=/test>return</a><p>";
+        data+="postbody: <pre>ok</pre>";
+        data+="</body></html>";
+        p.SendResponse("{\"a\":12,\"q\":[12,2,4,6]}");
+        //fetch("http://localhost:8150/",{method:'post',mode:'cors'}).then(function(data){return data.text();}).then(function(data){console.log(data)})
     }
     public override void OnDefault(){
         Console.Write("ok");
@@ -50,12 +56,12 @@ public class MyHttpServer : HttpServer {
     }
     
     public void listen() {
-        listener = new TcpListener(port);
+        listener = new TcpListener(new IPEndPoint(IPAddress.Parse("127.0.0.1"), this.port));
         listener.Start();
         while (is_active) {                
             TcpClient s = listener.AcceptTcpClient();
             Task task=new Task(ProcessRequest,(object)s);
-
+            task.Start();
             Thread.Sleep(1);
         }
     }

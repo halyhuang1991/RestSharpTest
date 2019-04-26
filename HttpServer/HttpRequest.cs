@@ -81,8 +81,50 @@ namespace RestSharpTest.HttpServer
             return this.handler;
         }
 
-        
-
+        public void SendMsg(string msg)
+        {
+            Stream stream = GetRequestStream();
+            // BinaryWriter bw = new BinaryWriter(stream);
+            // bw.Write(msg);
+            // bw.Close();
+            byte[] data = Encoding.UTF8.GetBytes(msg);
+            stream.Write(data, 0, data.Length);
+            stream.Close();
+        }
+        public void SendResponse(string msg){
+            string h = "HTTP/1.1 200 OK\r\n";
+            h+="Access-Control-Allow-Origin:*\r\n";
+            h+="Access-Control-Allow-Methods:GET, POST*\r\n";
+            h += "Cache-Control: no-cache\r\n"; h += "Content-Type: application/json; charset=utf-8\r\n";
+            h += "Server:SelfServer 1.0\r\n"; h += "selfhead:ok\r\n";
+            h += "Date:" + DateTime.Now.ToString() + "\r\n";
+            string content = msg;
+            h += "Content-Length:" + content.Length + "\r\n";
+            h += "Connection: close\r\n\r\n";
+            h += content;
+            SendMsg(h);
+        }
+        public void SendRequest(string url,string method,string msg){
+            Uri URI = new Uri(url);
+            StringBuilder RequestHeaders = new StringBuilder();
+            RequestHeaders.Append(method.ToUpper() + " " + URI.PathAndQuery + " HTTP/1.1\r\n");
+            if (method.ToUpper() == "GET")
+            {
+                RequestHeaders.Append("Content-Type:application/json\r\n");
+            }
+            else
+            {
+                RequestHeaders.Append("Content-Type:application/x-www-form-urlencoded\r\n");
+            }
+            RequestHeaders.Append("User-Agent:Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11\r\n");
+            //RequestHeaders.Append("Cookie:" + _cookie + "\r\n");
+            RequestHeaders.Append("Accept:*/*\r\n");
+            RequestHeaders.Append("Host:" + URI.Host + "\r\n");
+            RequestHeaders.Append("Content-Length:" + msg.Length + "\r\n");
+            RequestHeaders.Append("Connection:close\r\n\r\n");
+            RequestHeaders.Append(msg);
+            SendMsg(RequestHeaders.ToString());
+        }
         private string GetRequestData(Stream stream)
         {
             var length = 0;

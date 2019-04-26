@@ -12,8 +12,9 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-          HttpResponse1.run();
-         Console.WriteLine("Hello World!");
+            MyHttpServer my = new MyHttpServer(8150);
+            my.listen();
+            Console.WriteLine("Hello World!");
         }
         private void test(){
             Console.WriteLine("Hello World!");
