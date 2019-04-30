@@ -5,6 +5,7 @@ using RestSharp;
 using RestSharp.Extensions;
 using RestSharpTest.upLoad;
 using RestSharpTest.HttpServer;
+using RestSharpTest.UDP;
 
 namespace RestSharpTest
 {
@@ -12,9 +13,9 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-            MyHttpServer my = new MyHttpServer(8150);
-            my.listen();
+            
             Console.WriteLine("Hello World!");
+            Console.ReadLine();
         }
         private void test(){
             Console.WriteLine("Hello World!");
