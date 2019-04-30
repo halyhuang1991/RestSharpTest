@@ -26,8 +26,11 @@ namespace RestSharpTest.UDP
             while (true)
             {
                 string msg = " server6000 to 60001 "+DateTime.Now.ToString();//Console.ReadLine();
+                // for(int i=0;i<516;i++){
+                //     msg+="test"+i;
+                // }
                 server.SendTo(Encoding.UTF8.GetBytes(msg), point);
-                Thread.Sleep(1000);
+                Thread.Sleep(10000);
             }
         }
         void ReciveMsg(object server1)

@@ -13,7 +13,10 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-            
+            UDPServer my = new UDPServer();
+            my.run();
+            UDPClient my1 = new UDPClient();
+            my1.run();
             Console.WriteLine("Hello World!");
             Console.ReadLine();
         }
