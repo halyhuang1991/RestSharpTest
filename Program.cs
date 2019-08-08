@@ -6,6 +6,8 @@ using RestSharp.Extensions;
 using RestSharpTest.upLoad;
 using RestSharpTest.HttpServer;
 using RestSharpTest.UDP;
+using System.Text.RegularExpressions;
+using RestSharpTest.Controllers.ReflectionInjection;
 
 namespace RestSharpTest
 {
@@ -13,12 +15,28 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
+            var sarr = ReflectionFactory.MakeSources();
+            foreach (var s in sarr)
+            {
+                Console.WriteLine("创建 " + s.ShowInfo());
+            }
+            ReflectionFactory.ShowSource("Test1Source");
+            Console.WriteLine("Hello World!");
+            Console.ReadLine();
+        }
+        public void testRoutes(){
+            Controllers.Routes.Route.register();
+            Controllers.Routes.Route.Go("index");
+            Controllers.Routes.Route.Go("index", "Index");
+            Controllers.Routes.Route.Go("Index", "Get", 1);
+            Controllers.Routes.Route.Go("test", "Test");
+            Controllers.Routes.Route.Go("test", "Test1",2,"A12");
+        }
+        public void UDPtest(){
             UDPServer my = new UDPServer();
             my.run();
             UDPClient my1 = new UDPClient();
             my1.run();
-            Console.WriteLine("Hello World!");
-            Console.ReadLine();
         }
         private void test(){
             Console.WriteLine("Hello World!");
