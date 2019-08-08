@@ -33,8 +33,19 @@ namespace RestSharpTest.Controllers.Routes
         }
         public static void register(){
             Type type1 = typeof(BaseController);
+            Func<Type, bool> IsExtend = (t) =>
+            {
+                bool r = false;
+                while ((t = t.BaseType) != typeof(object))
+                {
+                    if(t==type1){
+                        r=true;break;
+                    }
+                }
+                return r;
+            };
             var subTypeQuery = from t in Assembly.GetExecutingAssembly().GetTypes()
-                                 where t.BaseType== type1 select t;
+                                 where IsExtend(t) select t;
             foreach (var type in subTypeQuery)
             {
                 Console.WriteLine(type.ToString()+"\t"+type.Name);

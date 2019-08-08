@@ -15,11 +15,11 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-            
+            testRoutes();
             Console.WriteLine("Hello World!");
             Console.ReadLine();
         }
-        public void testRoutes(){
+        public static void testRoutes(){
             Controllers.Routes.Route.register();
             Controllers.Routes.Route.Go("index");
             Controllers.Routes.Route.Go("index", "Index");
@@ -33,13 +33,13 @@ namespace RestSharpTest
             }
             ReflectionFactory.ShowSource("Test1Source");
         }
-        public void UDPtest(){
+        public static void UDPtest(){
             UDPServer my = new UDPServer();
             my.run();
             UDPClient my1 = new UDPClient();
             my1.run();
         }
-        private void test(){
+        private static void test(){
             Console.WriteLine("Hello World!");
             //uploadfile();//上传文件
             //ToObject();//返回对象
