@@ -8,6 +8,8 @@ using RestSharpTest.HttpServer;
 using RestSharpTest.UDP;
 using System.Text.RegularExpressions;
 using RestSharpTest.Controllers.ReflectionInjection;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace RestSharpTest
 {
@@ -15,9 +17,20 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-            testRoutes();
+            
             Console.WriteLine("Hello World!");
             Console.ReadLine();
+        }
+        private void testexml(){
+            string path=@"D:\C\github\RestSharpTest\Controllers\ReflectionInjection\Config.xml";
+            XElement element=XElement.Load(path);
+            var config=element.Elements();
+            element.SetAttributeValue("id",12);
+            var es=from i in config select i;
+            foreach(var item in es){
+                  Console.WriteLine(item.Value,item.Name);
+            }
+            element.Save(path);
         }
         public static void testRoutes(){
             Controllers.Routes.Route.register();
