@@ -15,12 +15,7 @@ namespace RestSharpTest
     {
         static void Main(string[] args)
         {
-            var sarr = ReflectionFactory.MakeSources();
-            foreach (var s in sarr)
-            {
-                Console.WriteLine("创建 " + s.ShowInfo());
-            }
-            ReflectionFactory.ShowSource("Test1Source");
+            
             Console.WriteLine("Hello World!");
             Console.ReadLine();
         }
@@ -31,6 +26,12 @@ namespace RestSharpTest
             Controllers.Routes.Route.Go("Index", "Get", 1);
             Controllers.Routes.Route.Go("test", "Test");
             Controllers.Routes.Route.Go("test", "Test1",2,"A12");
+            var sarr = ReflectionFactory.MakeSources();
+            foreach (var s in sarr)
+            {
+                Console.WriteLine("创建 " + s.ShowInfo());
+            }
+            ReflectionFactory.ShowSource("Test1Source");
         }
         public void UDPtest(){
             UDPServer my = new UDPServer();
